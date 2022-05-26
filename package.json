@@ -1,0 +1,33 @@
+{
+    "name": "challenge-nodejs",
+    "version": "1.0.0",
+    "description": "Una API para explorar el mundo de Disney, la cual permitirá conocer y modificar los personajes que lo componen y entender en qué películas estos participaron. Por otro lado, deberá exponer la información para que cualquier frontend pueda consumirla. Parte del Challenge de Alkemy 🎥",
+    "main": "app.js",
+    "directories": {
+        "test": "tests"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node app.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Samuel0023/CHALLENGE-BACKEND-NodeJs.git"
+    },
+    "author": "SamuelOnti",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Samuel0023/CHALLENGE-BACKEND-NodeJs/issues"
+    },
+    "homepage": "https://github.com/Samuel0023/CHALLENGE-BACKEND-NodeJs#readme",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.1",
+        "express": "^4.18.1",
+        "express-fileupload": "^1.4.0",
+        "express-validator": "^6.14.1",
+        "nodemon": "^2.0.16",
+        "uuid": "^8.3.2"
+    }
+}
