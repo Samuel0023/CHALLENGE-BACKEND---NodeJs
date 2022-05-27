@@ -1,5 +1,7 @@
 const express = require('express');
 require('dotenv');
+
+const cors = require('cors');
 const { createServer } = require('http');
 const { dbConnection } = require('../database/connection.db');
 class Server {
@@ -8,7 +10,9 @@ class Server {
         this.port = process.env.PORT;
         this.server = createServer(this.app);
 
-        this.paths = {};
+        this.paths = {
+            auth: '/auth'
+        };
         //connection db
         this.connectDB();
         //middlewares
@@ -21,11 +25,11 @@ class Server {
         await dbConnection();
     }
     middlewares() {
-
+        this.app.use(cors());
     }
 
     routes() {
-
+        this.app.use(this.paths.auth, require('./user/routes/user.auth.routes'));
     }
     listen() {
         this.server.listen(this.port, () => {

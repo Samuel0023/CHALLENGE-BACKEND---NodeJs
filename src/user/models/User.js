@@ -3,8 +3,9 @@ const { sequelize } = require('../../../database/config.db');
 
 const User = sequelize.define(
     "Users", {
+
         id_user: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             primaryKey: true
         },
         name: {
@@ -27,4 +28,4 @@ const User = sequelize.define(
     }
 );
 
-module.exports = User;
+module.exports = { User };
