@@ -1,5 +1,5 @@
 require('dotenv').config();
-const Server = require('./api.services/server');
+const Server = require('./src/server');
 
 
 const server = new Server();
