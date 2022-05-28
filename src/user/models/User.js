@@ -24,7 +24,9 @@ const User = sequelize.define(
         age: {
             type: DataTypes.INTEGER,
             allowNull: false
-        }
+        },
+    }, {
+        timestamps: false
     }
 );
 
