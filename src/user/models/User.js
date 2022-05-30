@@ -3,8 +3,9 @@ const { sequelize } = require('../../../database/config.db');
 
 const User = sequelize.define(
     "Users", {
+
         id_user: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.UUID,
             primaryKey: true
         },
         name: {
@@ -23,8 +24,10 @@ const User = sequelize.define(
         age: {
             type: DataTypes.INTEGER,
             allowNull: false
-        }
+        },
+    }, {
+        timestamps: false
     }
 );
 
-module.exports = User;
+module.exports = { User };

@@ -1,10 +1,10 @@
 const { sequelize } = require('./config.db');
 
-const User = require('../models');
+const { User, Movie, Movie_Character, Genre, Character } = require('../models');
 
 const dbConnection = async() => {
     try {
-        await sequelize.sync({ force: false });
+        await sequelize.sync({ force: true });
         console.log(" successfull connection db: ", process.env.DB_NAME);
     } catch (error) {
         console.log(error);
