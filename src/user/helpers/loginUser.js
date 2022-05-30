@@ -24,7 +24,7 @@ class Login {
             });
 
         }
-        const token = await generateJWT(this.user.id);
+        const token = await generateJWT(this.user.id_user);
         let user = this.user;
         return res.json({
             user,

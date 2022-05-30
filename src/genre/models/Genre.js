@@ -9,15 +9,12 @@ const Genre = sequelize.define(
         },
         name: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            unique: true
         },
         image: {
             type: DataTypes.STRING
-        },
-        id_movie: {
-            type: DataTypes.UUID,
-            references: { model: "Movies", key: "id_movie" }
-        },
+        }
     }, { timestamps: false }
 );
 

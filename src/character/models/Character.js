@@ -16,7 +16,7 @@ const Character = sequelize.define(
         },
         weight: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: true
         },
         description: {
             type: DataTypes.STRING,

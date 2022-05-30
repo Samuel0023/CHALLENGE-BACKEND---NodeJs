@@ -18,7 +18,11 @@ const Movie = sequelize.define(
         cualification: {
             type: DataTypes.STRING,
             allowNull: false
-        }
+        },
+        id_genre: {
+            type: DataTypes.UUID,
+            references: { model: "Genres", key: "id_genre" }
+        },
     }, { timestamps: false }
 );
 

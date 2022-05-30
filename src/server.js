@@ -11,7 +11,8 @@ class Server {
         this.server = createServer(this.app);
 
         this.paths = {
-            auth: '/auth'
+            auth: '/auth',
+            genre: '/genre'
         };
         //connection db
         this.connectDB();
@@ -30,6 +31,8 @@ class Server {
 
     routes() {
         this.app.use(this.paths.auth, require('./user/routes/user.auth.routes'));
+        this.app.use(this.paths.genre, require('./genre/routes/genre.routes'));
+
     }
     listen() {
         this.server.listen(this.port, () => {
