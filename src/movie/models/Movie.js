@@ -19,6 +19,9 @@ const Movie = sequelize.define(
             type: DataTypes.STRING,
             allowNull: false
         },
+        image: {
+            type: DataTypes.STRING
+        },
         id_genre: {
             type: DataTypes.UUID,
             references: { model: "Genres", key: "id_genre" }
