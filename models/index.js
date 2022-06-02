@@ -1,6 +1,6 @@
 const { User } = require('../src/user/models/User');
 const { Movie } = require('../src/movie/models/Movie');
-const { Movie_Character } = require('../src/movie/models/Movie_Character');
+const { Movie_Character } = require('../src/character/models/Movie_Character');
 const { Genre } = require('../src/genre/models/Genre');
 const { Character } = require('../src/character/models/Character');
 

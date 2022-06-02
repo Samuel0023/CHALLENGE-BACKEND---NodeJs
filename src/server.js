@@ -13,7 +13,8 @@ class Server {
         this.paths = {
             auth: '/auth',
             genre: '/genre',
-            movies: '/movies'
+            movies: '/movies',
+            characters: '/characters'
         };
         //connection db
         this.connectDB();
@@ -34,7 +35,7 @@ class Server {
         this.app.use(this.paths.auth, require('./user/routes/user.auth.routes'));
         this.app.use(this.paths.genre, require('./genre/routes/genre.routes'));
         this.app.use(this.paths.movies, require('./movie/routes/movie.routes'));
-
+        this.app.use(this.paths.characters, require('./character/routes/character.routes'));
     }
     listen() {
         this.server.listen(this.port, () => {
