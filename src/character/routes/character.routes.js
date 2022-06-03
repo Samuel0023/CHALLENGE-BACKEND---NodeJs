@@ -10,6 +10,8 @@ const router = new Router();
 router.get('/', CharacterController.getCharacters);
 
 router.get('/movie_characters', CharacterController.getAllMoviesCharacters);
+router.get('/:id', CharacterController.getCharacter);
+
 //get an especific  - character name
 router.get('/:name', [
     check('name', 'invalid name').not().isEmpty(),
@@ -27,7 +29,7 @@ router.get('/:movies', [
     validateFields
 ], CharacterController.getCharacterByMovie);
 
-//create a new category - private - (token valid) "post"
+//create a new character - private - (token valid) "post"
 router.post('/create', [
     validateJWT,
     check('name', 'name is required').not().isEmpty(),
@@ -36,7 +38,10 @@ router.post('/create', [
     check('description').not().isEmpty(),
     validateFields
 ], CharacterController.createCharacter);
-//Actualizar - private - (token valid) "put"
+
+//Add one character to a movie and
+router.post('/movie_character/:id', [check('id').custom(isValidateCharacter), check('nameMovie').custom(isValidateName), validateFields], CharacterController.setCharacterForMovie)
+    //Actualizar - private - (token valid) "put"
 
 router.put('/:id', [
     validateJWT,

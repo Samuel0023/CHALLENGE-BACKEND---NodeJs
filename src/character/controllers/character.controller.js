@@ -1,7 +1,7 @@
 const { Character } = require("../models/Character.js");
 const { Movie_Character } = require("../models/Movie_Character");
 
-const { createMovieCharacter, deleteMovieCharacter } = require("../middlewares");
+const { createMovieCharacter, deleteMovieCharacter, findAllMoviesByCharacter } = require("../middlewares");
 const { v4: uuidv4 } = require('uuid');
 
 const CharacterController = {
@@ -30,6 +30,26 @@ const CharacterController = {
         try {
             const moviecharacter = await Movie_Character.findAll();
             res.json({ moviecharacter });
+        } catch (error) {
+            console.log(error);
+            throw new Error(error);
+        }
+    },
+    getCharacter: async(req, res) => {
+
+        const { id } = req.params;
+        try {
+            const { name, age, weight, description, image } = await Character.findOne({ where: { id_character: id } });
+            const appearsOn = await findAllMoviesByCharacter(id);
+
+            res.json({
+                name,
+                age,
+                weight,
+                description,
+                image,
+                appearsOn
+            })
         } catch (error) {
             console.log(error);
             throw new Error(error);
@@ -86,20 +106,41 @@ const CharacterController = {
             });
         }
     },
+    setCharacterForMovie: async(req, res) => {
+        const { id } = req.params;
+        try {
+            const { nameMovie } = req.body;
+
+            const { id_character } = await Character.findOne({ where: { id_character: id } });
+
+            await createMovieCharacter(nameMovie, id, id_character);
+
+
+            res.json({
+                msg: "Update moviexcharacter succesfull",
+            });
+        } catch (error) {
+
+            console.log(error);
+            throw new Error(error);
+        }
+    },
     updateCharacter: async(req, res) => {
 
         const { id } = req.params;
         try {
-            const { name, age, weight, description, ...rest } = req.body;
-            console.log(id);
+            const { name, age, weight, description } = req.body;
+
             const character = await Character.findOne({ where: { id_character: id } });
-            character.name = name;
-            character.age = age;
-            character.weight = weight;
-            character.description = description;
 
-            await character.update();
+            await character.set({
+                name,
+                age,
+                weight,
+                description
+            });
 
+            await character.save();
             res.json({
                 msg: "Update succesfull",
                 character
