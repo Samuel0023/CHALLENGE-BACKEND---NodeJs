@@ -1,7 +1,7 @@
 const { Character } = require("../models/Character.js");
 const { Movie_Character } = require("../models/Movie_Character");
 
-const { createMovieCharacter, deleteMovieCharacter, findAllMoviesByCharacter } = require("../middlewares");
+const { createMovieCharacter, deleteMovieCharacter, findAllMoviesByCharacter, findAllCharacters } = require("../middlewares");
 const { v4: uuidv4 } = require('uuid');
 
 const CharacterController = {
@@ -57,8 +57,8 @@ const CharacterController = {
     },
     getCharacters: async(req, res) => {
         try {
-            const characters = await Character.findAll();
-
+            let characters = []
+            await findAllCharacters(characters);
             res.json({
                 characters
             })

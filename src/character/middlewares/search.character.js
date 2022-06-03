@@ -1,4 +1,4 @@
-const { Movie, Movie_Character } = require("../../../models/index");
+const { Movie, Movie_Character, Character } = require("../../../models/index");
 const findIdMovie = async(movie = '') => {
     const { id_movie } = await Movie.findOne({ where: { title: movie } });
     if (!id_movie) {
@@ -10,10 +10,10 @@ const findMovieByID = async(id_movie = '') => {
     const movie = await Movie.findOne({ where: { id_movie: id_movie } });
 
     return {
-        'title': movie.title,
-        'genre': movie.genre,
-        'date': movie.date,
-        'cualification': movie.cualification
+        'title': movie.getDataValue('title'),
+        'genre': movie.getDataValue('genre'),
+        'date': movie.getDataValue('date'),
+        'cualification': movie.getDataValue('cualification')
     };
 }
 const findAllMoviesByCharacter = async(id_character = '') => {
@@ -30,5 +30,14 @@ const findAllMoviesByCharacter = async(id_character = '') => {
 
     return result;
 }
+const findAllCharacters = async(result) => {
 
-module.exports = { findIdMovie, findAllMoviesByCharacter };
+    const characters = await Character.findAll();
+
+    for (const indice in characters) {
+        let name = characters[indice].getDataValue('name');
+        let image = characters[indice].getDataValue('image');
+        result.push({ name, image });
+    }
+}
+module.exports = { findIdMovie, findAllMoviesByCharacter, findAllCharacters };
