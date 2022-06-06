@@ -1,7 +1,7 @@
 const { Character } = require("../models/Character.js");
 const { Movie_Character } = require("../models/Movie_Character");
 
-const { createMovieCharacter, deleteMovieCharacter, findAllMoviesByCharacter, findAllCharacters } = require("../middlewares");
+const { createMovieCharacter, deleteMovieCharacter, findCharacter, findAllMoviesByCharacter, findAllCharacters, findCharactersByName, findCharactersByAge, findCharactersByMovie } = require("../middlewares");
 const { v4: uuidv4 } = require('uuid');
 
 const CharacterController = {
@@ -23,7 +23,8 @@ const CharacterController = {
             });
         } catch (error) {
             console.log(error);
-            throw new Error(error);
+            return res.status(400).json({ message: "We can't save this Character" });
+
         }
     },
     getAllMoviesCharacters: async(req, res) => {
@@ -40,7 +41,7 @@ const CharacterController = {
         const { id } = req.params;
         try {
             const { name, age, weight, description, image } = await Character.findOne({ where: { id_character: id } });
-            const appearsOn = await findAllMoviesByCharacter(id);
+            const movies = await findAllMoviesByCharacter(id);
 
             res.json({
                 name,
@@ -48,62 +49,53 @@ const CharacterController = {
                 weight,
                 description,
                 image,
-                appearsOn
+                movies
             })
         } catch (error) {
             console.log(error);
-            throw new Error(error);
+
         }
     },
     getCharacters: async(req, res) => {
+        const filters = req.query;
         try {
-            let characters = []
-            await findAllCharacters(characters);
-            res.json({
+            let characters = [];
+            let keys = ['name', 'age', 'movies']
+                // here i check if the filters i recv in query params is defined in the possible keys to search an a character
+            if (keys.some(op => op == Object.keys(filters))) {
+                let indice = 0;
+                for (let i = 0; i < keys.length; i++) {
+
+                    if (keys[i] == Object.keys(filters)) {
+                        indice = i;
+
+
+                        await findCharacter(indice, filters[keys[indice]], characters, res);
+                    }
+                }
+                if (characters.length == 0) {
+                    return res.status(404).json({
+                        message: `No character found by ${keys[indice]} = ${filters[keys[indice]]}`
+                    });
+                }
+            } else {
+
+                await findAllCharacters(characters);
+
+                if (characters.length == 0) {
+                    return res.status(404).json({
+                        message: `No character found`
+                    });
+                }
+            }
+
+            return res.status(200).json({
                 characters
             })
         } catch (error) {
             console.log(error);
-            throw new Error(error);
-        }
-    },
-    getCharacterByName: async(req, res) => {
-        const { name } = req.params;
-        try {
-            const character = await Character.findOne({ name });
-            res.json({
-                character
-            });
-        } catch (error) {
-            res.status(400).json({
-                msg: "character_name not found"
-            });
-        }
-    },
-    getCharactersByAge: async(req, res) => {
-        const { age } = req.params;
-        try {
-            const character = await Character.findAll({ age });
-            res.json({
-                character
-            });
-        } catch (error) {
-            res.status(400).json({
-                msg: "character_age not found"
-            });
-        }
-    },
-    getCharacterByMovie: async(req, res) => {
-        const { movie } = req.params;
-        try {
-            const character = await Character.findOne({ movie });
-            res.json({
-                character
-            });
-        } catch (error) {
-            res.status(400).json({
-                msg: "character_id_movie not found"
-            });
+            return res.status(400).json({ message: "We can't find this character" });
+
         }
     },
     setCharacterForMovie: async(req, res) => {

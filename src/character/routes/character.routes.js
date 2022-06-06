@@ -7,27 +7,13 @@ const { isValidateName, isValidateMovie, isValidateNameToSave, isValidateCharact
 const router = new Router();
 
 //get all characters
-router.get('/', CharacterController.getCharacters);
+router.get('/', [validateJWT, validateFields], CharacterController.getCharacters);
 
 router.get('/movie_characters', CharacterController.getAllMoviesCharacters);
 router.get('/:id', CharacterController.getCharacter);
 
 //get an especific  - character name
-router.get('/:name', [
-    check('name', 'invalid name').not().isEmpty(),
-    check('name').custom(isValidateName),
-    validateFields
-], CharacterController.getCharacterByName);
-//get all  characters  - by age
-router.get('/:age', [
-    check('age', 'invalid age').not().isEmpty(),
-    validateFields
-], CharacterController.getCharactersByAge);
-//get all characters - by movies
-router.get('/:movies', [
-    check('id_movie').custom(isValidateMovie),
-    validateFields
-], CharacterController.getCharacterByMovie);
+
 
 //create a new character - private - (token valid) "post"
 router.post('/create', [

@@ -3,6 +3,7 @@ const { Movie_Character } = require("../models/Movie_Character.js");
 
 const isValidateName = async(name = '') => {
     let existNameCharacter = await Character.findOne({ where: { name: name } });
+    console.log(name);
     if (!existNameCharacter) {
         throw new Error(`This character_name doesn't exists`);
     }
