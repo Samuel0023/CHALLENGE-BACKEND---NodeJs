@@ -15,6 +15,12 @@ const isValidateGenre = async(genre = '') => {
         throw new Error(`This genre does not exist`);
     }
 }
+const idValidateMovie = async(id_movie = '') => {
+    let existsMovie = await Character.findOne({ where: { id_movie: id_movie } });
+    if (!existsMovie) {
+        throw new Error(`This Movie doesn't exist`);
+    }
+}
 
 
-module.exports = { isValidateTitle, isValidateGenre }
+module.exports = { isValidateTitle, isValidateGenre, idValidateMovie }

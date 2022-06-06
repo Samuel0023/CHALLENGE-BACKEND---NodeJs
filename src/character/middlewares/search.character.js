@@ -76,7 +76,7 @@ const findCharactersByMovie = async(id_movie = '', result) => {
     showCharacters(result, characters);
 }
 
-var findCharacter = async(code, filter, result) => {
+var searcherCharacter = async(code, filter, result) => {
 
     switch (code) {
         case 0:
@@ -91,4 +91,4 @@ var findCharacter = async(code, filter, result) => {
     }
 
 }
-module.exports = { findIdMovie, findAllMoviesByCharacter, findAllCharacters, findCharactersByName, findCharactersByMovie, findCharactersByAge, findCharacter };
+module.exports = { findIdMovie, findAllMoviesByCharacter, findAllCharacters, findCharactersByName, findCharactersByMovie, findCharactersByAge, searcherCharacter };

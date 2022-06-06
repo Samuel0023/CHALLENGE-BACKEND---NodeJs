@@ -1,7 +1,7 @@
 const { Character } = require("../models/Character.js");
 const { Movie_Character } = require("../models/Movie_Character");
 
-const { createMovieCharacter, deleteMovieCharacter, findCharacter, findAllMoviesByCharacter, findAllCharacters, findCharactersByName, findCharactersByAge, findCharactersByMovie } = require("../middlewares");
+const { createMovieCharacter, deleteMovieCharacter, searcherCharacter, findAllMoviesByCharacter, findAllCharacters, findCharactersByName, findCharactersByAge, findCharactersByMovie } = require("../middlewares");
 const { v4: uuidv4 } = require('uuid');
 
 const CharacterController = {
@@ -70,7 +70,7 @@ const CharacterController = {
                         indice = i;
 
 
-                        await findCharacter(indice, filters[keys[indice]], characters, res);
+                        await searcherCharacter(indice, filters[keys[indice]], characters);
                     }
                 }
                 if (characters.length == 0) {
@@ -125,7 +125,7 @@ const CharacterController = {
 
             const character = await Character.findOne({ where: { id_character: id } });
 
-            await character.set({
+            character.set({
                 name,
                 age,
                 weight,
