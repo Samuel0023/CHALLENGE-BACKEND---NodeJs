@@ -3,6 +3,8 @@ const bcrytjs = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
 const { User } = require('../models/User');
 
+const { sendMail } = require('../../../microservices/mail/send.mail');
+
 
 const UserController = {
 
@@ -19,6 +21,7 @@ const UserController = {
             user.password = bcrytjs.hashSync(password, salt);
             //guardar en la base de datos
             await user.save();
+            await sendMail(user.getDataValue('mail'), user.getDataValue('name'));
 
 
             res.json({

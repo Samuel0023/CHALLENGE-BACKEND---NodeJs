@@ -11,7 +11,7 @@ router.post('/register', [
     check('name', 'invalid name').not().isEmpty(),
     check('password', 'invalid password at least 6 caracters').isLength({ min: 6 }),
     check('mail', 'invalid mail').isEmail(),
-    check('mail').custom(isValiteMail),
+    //check('mail').custom(isValiteMail),
     validateFields
 ], UserController.usersPost);
 
