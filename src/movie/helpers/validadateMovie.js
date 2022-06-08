@@ -16,7 +16,7 @@ const isValidateGenre = async(genre = '') => {
     }
 }
 const idValidateMovie = async(id_movie = '') => {
-    let existsMovie = await Character.findOne({ where: { id_movie: id_movie } });
+    let existsMovie = await Movie.findOne({ where: { id_movie: id_movie } });
     if (!existsMovie) {
         throw new Error(`This Movie doesn't exist`);
     }

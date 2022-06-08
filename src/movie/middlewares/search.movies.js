@@ -71,6 +71,13 @@ var searcherMovie = async(code, filter, result) => {
     }
 
 }
+const findAllMovies = async(result) => {
+
+    const characters = await Movie.findAll();
+
+    showCharacters(result, characters);
+}
 
 
-module.exports = { findAllCharactersByMovie, searcherMovie };
+
+module.exports = { findAllCharactersByMovie, searcherMovie, findAllMovies };

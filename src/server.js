@@ -1,5 +1,6 @@
 const express = require('express');
 require('dotenv');
+const fileUpload = require('express-fileupload');
 
 const cors = require('cors');
 const { createServer } = require('http');
@@ -29,6 +30,15 @@ class Server {
     }
     middlewares() {
         this.app.use(cors());
+
+
+        this.app.use(express.static('public'));
+
+        this.app.use(fileUpload({
+            useTempFiles: true,
+            tempFileDir: '/tmp/',
+            createParentPath: true
+        }));
     }
 
     routes() {

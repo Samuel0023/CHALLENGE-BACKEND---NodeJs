@@ -1,4 +1,5 @@
 const { Router } = require('express');
+
 const MovieController = require('../controllers/movie.controller');
 const { check } = require('express-validator');
 const { validateJWT, validateFields } = require('../../../middlewares');
@@ -24,6 +25,12 @@ router.put('/:id', [
     validateFields
 ], MovieController.updateMovie);
 
+router.put('/uploadImage/:id', [
+    validateJWT,
+    check('id').not().isEmpty(),
+    check('id').custom(idValidateMovie),
+    validateFields
+], MovieController.updateMovieImage);
 //Delete category - private - Admin
 
 router.delete('/:id', [
