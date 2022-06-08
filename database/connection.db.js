@@ -1,6 +1,6 @@
 const { sequelize } = require('./config.db');
 
-const User = require('../models');
+const { User, Movie, Movie_Character, Genre, Character } = require('../models');
 
 const dbConnection = async() => {
     try {
