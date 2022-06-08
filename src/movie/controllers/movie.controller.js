@@ -1,10 +1,10 @@
 const { Movie } = require("../models/Movie.js");
 const { Genre } = require("../../genre/models/Genre");
-const path = require('path');
+
 
 const { findAllCharactersByMovie, searcherMovie, findAllMovies } = require("../middlewares/search.movies")
 const { v4: uuidv4 } = require('uuid');
-const { uploadImage, deleteImage, getDefaultImage } = require('../../../microservices/upload-files/upload-files');
+const { uploadImage, deleteImage } = require('../../../microservices/upload-files/upload-files');
 const MoviesController = {
     createMovie: async(req, res) => {
         try {
@@ -124,11 +124,8 @@ const MoviesController = {
 
             const movie = await Movie.findOne({ where: { id_movie: id } });
 
-            movie.set({
-                rest
-            });
+            await movie.update(rest);
 
-            await movie.save();
             res.json({
                 msg: "Update succesfull",
                 movie

@@ -10,7 +10,7 @@ const router = new Router();
 router.get('/', [validateJWT, validateFields], CharacterController.getCharacters);
 
 router.get('/movie_characters', CharacterController.getAllMoviesCharacters);
-router.get('/:id', CharacterController.getCharacter);
+router.get('/:id', [validateJWT, validateFields], CharacterController.getCharacter);
 
 //get an especific  - character name
 
@@ -36,6 +36,13 @@ router.put('/:id', [
     validateFields
 ], CharacterController.updateCharacter);
 
+
+router.put('/uploadImage/:id', [
+    validateJWT,
+    check('id').not().isEmpty(),
+    check('id').custom(isValidateCharacter),
+    validateFields
+], CharacterController.updateCharacterImage);
 //Delete category - private - Admin
 
 router.delete('/:id', [

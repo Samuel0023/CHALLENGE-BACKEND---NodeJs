@@ -1,5 +1,6 @@
 const { Character } = require("../models/Character.js");
 const { Movie_Character } = require("../models/Movie_Character");
+const { uploadImage, deleteImage } = require('../../../microservices/upload-files/upload-files');
 
 const { createMovieCharacter, deleteMovieCharacter, searcherCharacter, findAllMoviesByCharacter, findAllCharacters, findCharactersByName, findCharactersByAge, findCharactersByMovie } = require("../middlewares");
 const { v4: uuidv4 } = require('uuid');
@@ -121,18 +122,11 @@ const CharacterController = {
 
         const { id } = req.params;
         try {
-            const { name, age, weight, description } = req.body;
+            const { id_character, ...rest } = req.body;
 
             const character = await Character.findOne({ where: { id_character: id } });
 
-            character.set({
-                name,
-                age,
-                weight,
-                description
-            });
-
-            await character.save();
+            await character.update(rest);
             res.json({
                 msg: "Update succesfull",
                 character
@@ -152,6 +146,33 @@ const CharacterController = {
             await character.destroy();
 
             res.status(200).json({ msg: "character ${name} deleted" });
+        } catch (error) {
+
+            console.log(error);
+            throw new Error(error);
+        }
+    },
+    updateCharacterImage: async(req, res) => {
+        const { id } = req.params;
+        try {
+            const character = await Character.findOne({ where: { id_character: id } });
+            let image = character.getDataValue('image');
+            if (image !== undefined && image !== null) {
+                await deleteImage(image);
+            }
+
+            const { tempFilePath } = req.files.file;
+
+            image = await uploadImage(tempFilePath);
+
+            character.set({ image });
+
+            await character.save();
+
+            res.json({
+                msg: 'Image saved successfully',
+                character
+            })
         } catch (error) {
 
             console.log(error);
